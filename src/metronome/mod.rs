@@ -5,12 +5,13 @@
 //! - Copyright: &copy; 2023 [`CroftSoft Inc`]
 //! - Author: [`David Wallace Croft`]
 //! - Created: 2023-02-21
-//! - Updated: 2023-02-21
+//! - Updated: 2023-02-22
 //!
 //! [`CroftSoft Inc`]: https://www.croftsoft.com/
 //! [`David Wallace Croft`]: https://www.croftsoft.com/people/david/
 // =============================================================================
 
+pub mod delta;
 pub mod simple;
 pub mod updater;
 
