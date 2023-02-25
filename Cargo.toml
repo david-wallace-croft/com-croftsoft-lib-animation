@@ -1,6 +1,6 @@
 [package]
 name = "com-croftsoft-lib-animation"
-version = "0.0.2"
+version = "0.0.3-SNAPSHOT"
 authors = ["David Wallace Croft <david@CroftSoft.com>"]
 categories = ["game-development", "graphics", "gui", "rendering", "visualization"]
 description = "CroftSoft Library for Animation"

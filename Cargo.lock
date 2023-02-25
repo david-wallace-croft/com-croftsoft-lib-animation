@@ -4,7 +4,7 @@ version = 3
 
 [[package]]
 name = "com-croftsoft-lib-animation"
-version = "0.0.2"
+version = "0.0.3-SNAPSHOT"
 dependencies = [
  "com-croftsoft-lib-role",
 ]
