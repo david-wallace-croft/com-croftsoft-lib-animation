@@ -8,7 +8,7 @@ edition = "2021"
 homepage = "https://www.CroftSoft.com/"
 keywords = ["game-development", "graphics", "gui", "rendering", "visualization"]
 license = "MIT"
-publish = true
+publish = false
 readme = "README.md"
 repository = "https://github.com/david-wallace-croft/com-croftsoft-lib-animation"
 
