@@ -12,6 +12,7 @@
 // =============================================================================
 
 pub mod simple;
+pub mod updater;
 
 pub trait FrameRater {
   fn clear(&mut self);
