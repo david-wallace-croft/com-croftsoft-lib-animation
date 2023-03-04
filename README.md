@@ -1,6 +1,6 @@
 # com-croftsoft-lib-animation
 
-- CroftSoft Library for Animation
+- CroftSoft Animation Library
 
 ## History
 
