@@ -1,6 +1,6 @@
 [package]
 name = "com-croftsoft-lib-animation"
-version = "0.0.4"
+version = "0.0.5-SNAPSHOT"
 authors = ["David Wallace Croft <david@CroftSoft.com>"]
 categories = ["game-development", "graphics", "gui", "rendering", "visualization"]
 description = "CroftSoft Library for Animation"
@@ -8,7 +8,7 @@ edition = "2021"
 homepage = "https://www.CroftSoft.com/"
 keywords = ["game-development", "graphics", "gui", "rendering", "visualization"]
 license = "MIT"
-publish = true
+publish = false
 readme = "README.md"
 repository = "https://github.com/david-wallace-croft/com-croftsoft-lib-animation"
 
