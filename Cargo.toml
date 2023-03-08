@@ -1,6 +1,4 @@
 [package]
-name = "com-croftsoft-lib-animation"
-version = "0.0.5-SNAPSHOT"
 authors = ["David Wallace Croft <david@CroftSoft.com>"]
 categories = ["game-development", "graphics", "gui", "rendering", "visualization"]
 description = "CroftSoft Library for Animation"
@@ -8,16 +6,34 @@ edition = "2021"
 homepage = "https://www.CroftSoft.com/"
 keywords = ["game-development", "graphics", "gui", "rendering", "visualization"]
 license = "MIT"
-publish = false
+name = "com-croftsoft-lib-animation"
+publish = true
 readme = "README.md"
 repository = "https://github.com/david-wallace-croft/com-croftsoft-lib-animation"
+version = "0.0.5"
 
 [dependencies]
+anyhow = "1.0.66"
 com-croftsoft-lib-role = "0.2.0"
-wasm-bindgen = "0.2.83"
+futures = "0.3.26"
+js-sys = "0.3.61"
+wasm-bindgen = "0.2.84"
+wasm-bindgen-futures = "0.4.34"
 
 [dependencies.web-sys]
-version = "0.3.60"
 features = [
   "CanvasRenderingContext2d",
+  "Document",
+  "DomRect",
+  "Element",
+  "Event",
+  "HtmlCanvasElement",
+  # "HtmlCollection",
+  # "HtmlDivElement",
+  # "HtmlInputElement",
+  "MouseEvent",
+  # "Performance",
+  "Window",
+  "console",
 ]
+version = "0.3.61"
