@@ -41,9 +41,9 @@ dependencies = [
 
 [[package]]
 name = "com-croftsoft-lib-role"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f7300d04e6ef33daadcda022076d9a790697646ab4c0f921a5be592c729d65e0"
+checksum = "961553c2c565dab54c88c2e39f4eb839ce52116afcfd032b5380dfa484f0b25f"
 
 [[package]]
 name = "futures"
