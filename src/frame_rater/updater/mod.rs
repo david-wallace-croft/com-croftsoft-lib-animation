@@ -5,7 +5,7 @@
 //! - Copyright: &copy; 2023 [`CroftSoft Inc`]
 //! - Author: [`David Wallace Croft`]
 //! - Created: 2023-03-01
-//! - Updated: 2023-03-01
+//! - Updated: 2023-09-02
 //!
 //! [`CroftSoft Inc`]: https://www.croftsoft.com/
 //! [`David Wallace Croft`]: https://www.croftsoft.com/people/david/
@@ -13,7 +13,7 @@
 
 use super::FrameRater;
 use com_croftsoft_lib_role::Updater;
-use core::cell::{Ref, RefCell};
+use core::cell::{Cell, Ref, RefCell};
 use std::rc::Rc;
 
 pub trait FrameRaterUpdaterInputs {
@@ -25,7 +25,7 @@ pub trait FrameRaterUpdaterInputs {
 }
 
 pub struct FrameRaterUpdater {
-  frame_rate_display: bool,
+  frame_rate_display: Cell<bool>,
   frame_rater: Rc<RefCell<dyn FrameRater>>,
   inputs: Rc<RefCell<dyn FrameRaterUpdaterInputs>>,
 }
@@ -37,7 +37,7 @@ impl FrameRaterUpdater {
     inputs: Rc<RefCell<dyn FrameRaterUpdaterInputs>>,
   ) -> Self {
     Self {
-      frame_rate_display,
+      frame_rate_display: Cell::new(frame_rate_display),
       frame_rater,
       inputs,
     }
@@ -45,12 +45,12 @@ impl FrameRaterUpdater {
 }
 
 impl Updater for FrameRaterUpdater {
-  fn update(&mut self) {
+  fn update(&self) {
     let inputs: Ref<dyn FrameRaterUpdaterInputs> = self.inputs.borrow();
     if let Some(frame_rate_display) =
       inputs.get_frame_rate_display_change_requested()
     {
-      self.frame_rate_display = frame_rate_display;
+      self.frame_rate_display.set(frame_rate_display);
       if frame_rate_display {
         self.frame_rater.borrow_mut().clear();
       }
@@ -67,7 +67,7 @@ impl Updater for FrameRaterUpdater {
       self.frame_rater.borrow_mut().clear();
       return;
     }
-    if self.frame_rate_display && inputs.get_time_to_update() {
+    if inputs.get_time_to_update() && self.frame_rate_display.get() {
       self
         .frame_rater
         .borrow_mut()

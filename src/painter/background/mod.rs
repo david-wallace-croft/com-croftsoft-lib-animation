@@ -5,7 +5,7 @@
 //! - Copyright: &copy; 2023 [`CroftSoft Inc`]
 //! - Author: [`David Wallace Croft`]
 //! - Created: 2023-03-03
-//! - Updated: 2023-03-03
+//! - Updated: 2023-09-02
 //!
 //! [`CroftSoft Inc`]: https://www.croftsoft.com/
 //! [`David Wallace Croft`]: https://www.croftsoft.com/people/david/
@@ -42,7 +42,7 @@ impl BackgroundPainter {
 }
 
 impl Painter for BackgroundPainter {
-  fn paint(&mut self) {
+  fn paint(&self) {
     let context = self.context.borrow();
     context.set_fill_style(&self.fill_style);
     context.fill_rect(0., 0., self.canvas_width, self.canvas_height);

@@ -5,7 +5,7 @@
 //! - Copyright: &copy; 2023 [`CroftSoft Inc`]
 //! - Author: [`David Wallace Croft`]
 //! - Created: 2023-02-21
-//! - Updated: 2023-02-21
+//! - Updated: 2023-09-02
 //!
 //! [`CroftSoft Inc`]: https://www.croftsoft.com/
 //! [`David Wallace Croft`]: https://www.croftsoft.com/people/david/
@@ -51,7 +51,7 @@ impl MetronomeUpdater {
 }
 
 impl Updater for MetronomeUpdater {
-  fn update(&mut self) {
+  fn update(&self) {
     let inputs: Ref<dyn MetronomeUpdaterInputs> = self.inputs.borrow();
     if let Some(period_millis) = inputs.get_period_millis_change_requested() {
       let mut metronome: RefMut<dyn Metronome> = self.metronome.borrow_mut();
