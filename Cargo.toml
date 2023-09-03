@@ -19,12 +19,12 @@ repository = "https://github.com/david-wallace-croft/com-croftsoft-lib-animation
 version = "0.0.7-SNAPSHOT"
 
 [dependencies]
-anyhow = "1.0.66"
+anyhow = "1.0.75"
 com-croftsoft-lib-role = "0.4.0"
-futures = "0.3.26"
-js-sys = "0.3.61"
-wasm-bindgen = "0.2.84"
-wasm-bindgen-futures = "0.4.34"
+futures = "0.3.28"
+js-sys = "0.3.64"
+wasm-bindgen = "0.2.87"
+wasm-bindgen-futures = "0.4.37"
 
 [dependencies.web-sys]
 features = [
@@ -34,12 +34,8 @@ features = [
   "Element",
   "Event",
   "HtmlCanvasElement",
-  # "HtmlCollection",
-  # "HtmlDivElement",
-  # "HtmlInputElement",
   "MouseEvent",
-  # "Performance",
   "Window",
   "console",
 ]
-version = "0.3.61"
+version = "0.3.64"
