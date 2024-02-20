@@ -13,18 +13,18 @@ homepage = "https://www.CroftSoft.com/"
 keywords = ["game-development", "graphics", "gui", "rendering", "visualization"]
 license = "MIT"
 name = "com-croftsoft-lib-animation"
-publish = false
+publish = true
 readme = "README.md"
 repository = "https://github.com/david-wallace-croft/com-croftsoft-lib-animation"
-version = "0.0.8-SNAPSHOT"
+version = "0.0.8"
 
 [dependencies]
-anyhow = "1.0.75"
-com-croftsoft-lib-role = "0.4.0"
-futures = "0.3.28"
-js-sys = "0.3.64"
-wasm-bindgen = "0.2.87"
-wasm-bindgen-futures = "0.4.37"
+anyhow = "1.0.80"
+com-croftsoft-lib-role = "0.5.1"
+futures = "0.3.30"
+js-sys = "0.3.68"
+wasm-bindgen = "0.2.91"
+wasm-bindgen-futures = "0.4.41"
 
 [dependencies.web-sys]
 features = [
@@ -38,4 +38,4 @@ features = [
   "Window",
   "console",
 ]
-version = "0.3.64"
+version = "0.3.68"
