@@ -2,10 +2,10 @@
 //! - Simple Frame Rater
 //!
 //! # Metadata
-//! - Copyright: &copy; 2023 [`CroftSoft Inc`]
+//! - Copyright: &copy; 2023-2024 [`CroftSoft Inc`]
 //! - Author: [`David Wallace Croft`]
 //! - Created: 2023-03-01
-//! - Updated: 2023-03-01
+//! - Updated: 2024-07-29
 //!
 //! [`CroftSoft Inc`]: https://www.croftsoft.com/
 //! [`David Wallace Croft`]: https://www.croftsoft.com/people/david/
@@ -27,17 +27,13 @@ pub struct SimpleFrameRater {
 
 impl SimpleFrameRater {
   fn calculate_frame_sample_size_target(frame_period_millis: f64) -> usize {
-    let mut frame_sample_size = if frame_period_millis > 0. {
+    let frame_sample_size = if frame_period_millis > 0. {
       (SAMPLE_TIME_MILLIS / frame_period_millis) as usize
     } else {
       FRAME_SAMPLE_SIZE_MAX
     };
-    if frame_sample_size < 1 {
-      frame_sample_size = 1;
-    } else if frame_sample_size > FRAME_SAMPLE_SIZE_MAX {
-      frame_sample_size = FRAME_SAMPLE_SIZE_MAX;
-    }
-    frame_sample_size
+
+    frame_sample_size.clamp(1, FRAME_SAMPLE_SIZE_MAX)
   }
 
   pub fn new(frame_period_millis_target: f64) -> Self {
