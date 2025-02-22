@@ -8,7 +8,7 @@ categories = [
   "visualization",
 ]
 description = "CroftSoft Library for Animation"
-edition = "2021"
+edition = "2024"
 homepage = "https://www.CroftSoft.com/"
 keywords = ["game-development", "graphics", "gui", "rendering", "visualization"]
 license = "MIT"
@@ -16,16 +16,16 @@ name = "com-croftsoft-lib-animation"
 publish = false
 readme = "README.md"
 repository = "https://github.com/david-wallace-croft/com-croftsoft-lib-animation"
-rust-version = "1.61"
+rust-version = "1.85.0"
 version = "0.0.9-SNAPSHOT"
 
 [dependencies]
-anyhow = "1.0.80"
+anyhow = "1.0.96"
 com-croftsoft-lib-role = "0.5.1"
 futures = "0.3.30"
-js-sys = "0.3.68"
-wasm-bindgen = "0.2.91"
-wasm-bindgen-futures = "0.4.41"
+js-sys = "0.3.77"
+wasm-bindgen = "0.2.100"
+wasm-bindgen-futures = "0.4.50"
 
 [dependencies.web-sys]
 features = [
