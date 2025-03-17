@@ -13,15 +13,15 @@
 
 // TODO: see https://github.com/rustwasm/gloo
 
-use anyhow::{anyhow, Result};
-use futures::channel::mpsc::{unbounded, UnboundedReceiver};
+use anyhow::{Result, anyhow};
+use futures::channel::mpsc::{UnboundedReceiver, unbounded};
 use js_sys::Function;
 use std::{cell::RefCell, rc::Rc};
 use wasm_bindgen::prelude::Closure;
 use wasm_bindgen::{JsCast, JsValue};
 use web_sys::{
-  console, window, Document, DomRect, Element, Event, EventTarget,
-  HtmlCanvasElement, HtmlElement, MouseEvent, Window,
+  Document, DomRect, Element, Event, EventTarget, HtmlCanvasElement,
+  HtmlElement, MouseEvent, Window, console, window,
 };
 
 type LoopClosure = Closure<dyn FnMut(f64)>;
@@ -147,7 +147,9 @@ pub fn request_animation_frame(
 
 pub fn spawn_local_loop<L: LoopUpdater + 'static>(loop_updater: L) {
   wasm_bindgen_futures::spawn_local(async move {
-    start_looping(loop_updater).await.expect("loop start failed");
+    start_looping(loop_updater)
+      .await
+      .expect("loop start failed");
   });
 }
 

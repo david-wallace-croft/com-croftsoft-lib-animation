@@ -56,7 +56,10 @@ impl Updater for MetronomeUpdater {
     if let Some(period_millis) = inputs.get_period_millis_change_requested() {
       let mut metronome: RefMut<dyn Metronome> = self.metronome.borrow_mut();
       metronome.set_period_millis(period_millis);
-      self.events.borrow_mut().set_period_millis_changed(period_millis);
+      self
+        .events
+        .borrow_mut()
+        .set_period_millis_changed(period_millis);
       metronome.set_time_millis_next_tick(0.);
     }
     let current_time_millis: f64 =
