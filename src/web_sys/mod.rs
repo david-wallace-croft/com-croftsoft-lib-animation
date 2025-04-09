@@ -2,10 +2,10 @@
 //! - web-sys functions for the CroftSoft Animation Library
 //!
 //! # Metadata
-//! - Copyright: &copy; 2023 [`CroftSoft Inc`]
+//! - Copyright: &copy; 2023-2025 [`CroftSoft Inc`]
 //! - Author: [`David Wallace Croft`]
 //! - Created: 2023-03-07
-//! - Updated: 2023-03-07
+//! - Updated: 2025-04-08
 //!
 //! [`CroftSoft Inc`]: https://www.croftsoft.com/
 //! [`David Wallace Croft`]: https://www.croftsoft.com/people/david/
@@ -13,13 +13,13 @@
 
 // TODO: see https://github.com/rustwasm/gloo
 
-use anyhow::{Result, anyhow};
-use futures::channel::mpsc::{UnboundedReceiver, unbounded};
-use js_sys::Function;
-use std::{cell::RefCell, rc::Rc};
-use wasm_bindgen::prelude::Closure;
-use wasm_bindgen::{JsCast, JsValue};
-use web_sys::{
+use ::anyhow::{Result, anyhow};
+use ::futures::channel::mpsc::{UnboundedReceiver, unbounded};
+use ::js_sys::Function;
+use ::std::cell::Ref;
+use ::std::{cell::RefCell, rc::Rc};
+use ::wasm_bindgen::prelude::*;
+use ::web_sys::{
   Document, DomRect, Element, Event, EventTarget, HtmlCanvasElement,
   HtmlElement, MouseEvent, Window, console, window,
 };
@@ -157,14 +157,22 @@ pub async fn start_looping<L: LoopUpdater + 'static>(
   mut loop_updater: L
 ) -> Result<()> {
   let f: Rc<RefCell<Option<LoopClosure>>> = Rc::new(RefCell::new(None));
-  let g = f.clone();
+
+  let g: Rc<RefCell<Option<Closure<dyn FnMut(f64)>>>> = f.clone();
+
   *g.borrow_mut() = Some(Closure::wrap(Box::new(move |update_time: f64| {
     loop_updater.update_loop(update_time);
+
     let _result: Result<i32, anyhow::Error> =
       request_animation_frame(f.borrow().as_ref().unwrap());
   })));
-  request_animation_frame(
-    g.borrow().as_ref().ok_or_else(|| anyhow!("loop failed"))?,
-  )?;
+
+  let g_borrowed: Ref<'_, Option<Closure<dyn FnMut(f64)>>> = g.borrow();
+
+  let callback: &Closure<dyn FnMut(f64)> =
+    g_borrowed.as_ref().ok_or_else(|| anyhow!("loop failed"))?;
+
+  request_animation_frame(callback)?;
+
   Ok(())
 }

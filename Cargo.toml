@@ -19,7 +19,7 @@ publish = false
 readme = "README.md"
 repository = """\
   https://github.com/david-wallace-croft/com-croftsoft-lib-animation"""
-rust-version = "1.85.0"
+rust-version = "1.86.0"
 version = "0.0.9-SNAPSHOT"
 
 [dependencies]
