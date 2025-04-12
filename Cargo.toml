@@ -15,12 +15,12 @@ homepage = "https://www.CroftSoft.com/"
 keywords = ["game-development", "graphics", "gui", "rendering", "visualization"]
 license = "MIT"
 name = "com-croftsoft-lib-animation"
-publish = false
+publish = true
 readme = "README.md"
 repository = """\
   https://github.com/david-wallace-croft/com-croftsoft-lib-animation"""
 rust-version = "1.86.0"
-version = "0.0.9-SNAPSHOT"
+version = "0.1.0"
 
 [dependencies]
 anyhow = "1.0.97"
