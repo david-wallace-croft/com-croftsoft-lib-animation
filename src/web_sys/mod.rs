@@ -5,7 +5,7 @@
 //! - Copyright: &copy; 2023-2025 [`CroftSoft Inc`]
 //! - Author: [`David Wallace Croft`]
 //! - Created: 2023-03-07
-//! - Updated: 2025-04-08
+//! - Updated: 2025-04-13
 //!
 //! [`CroftSoft Inc`]: https://www.croftsoft.com/
 //! [`David Wallace Croft`]: https://www.croftsoft.com/people/david/
@@ -24,12 +24,13 @@ use ::web_sys::{
   HtmlElement, MouseEvent, Window, console, window,
 };
 
-type LoopClosure = Closure<dyn FnMut(f64)>;
+/// A wasm_bindgen Closure for a request_animation_frame callback function
+type CallbackClosure = Closure<dyn FnMut(f64)>;
 
 pub trait LoopUpdater {
   fn update_loop(
     &mut self,
-    update_time: f64,
+    timestamp: f64,
   ) -> bool;
 }
 
@@ -137,11 +138,22 @@ pub fn log(message: &str) {
 }
 
 pub fn request_animation_frame(
-  callback: &Closure<dyn FnMut(f64)>
+  callback_closure_ref: &CallbackClosure
 ) -> Result<i32> {
-  get_window()?
-    .request_animation_frame(callback.as_ref().unchecked_ref())
-    .map_err(|err| anyhow!("Cannot request animation frame {:#?}", err))
+  let window_result: Result<Window, anyhow::Error> = get_window();
+
+  let window: Window = window_result?;
+
+  let callback_shared_reference: &JsValue = callback_closure_ref.as_ref();
+
+  let callback: &Function = callback_shared_reference.unchecked_ref();
+
+  let request_id_result: Result<i32, JsValue> =
+    window.request_animation_frame(callback);
+
+  request_id_result.map_err(|err: JsValue| {
+    anyhow!("Cannot request animation frame {:#?}", err)
+  })
 }
 
 pub fn spawn_local_loop<L: LoopUpdater + 'static>(loop_updater: L) {
@@ -155,27 +167,42 @@ pub fn spawn_local_loop<L: LoopUpdater + 'static>(loop_updater: L) {
 pub async fn start_looping<L: LoopUpdater + 'static>(
   mut loop_updater: L
 ) -> Result<()> {
-  let f: Rc<RefCell<Option<LoopClosure>>> = Rc::new(RefCell::new(None));
+  let f: Rc<RefCell<Option<CallbackClosure>>> = Rc::new(RefCell::new(None));
 
-  let g: Rc<RefCell<Option<LoopClosure>>> = f.clone();
+  let g: Rc<RefCell<Option<CallbackClosure>>> = f.clone();
 
-  *g.borrow_mut() = Some(Closure::wrap(Box::new(move |update_time: f64| {
-    let stop: bool = loop_updater.update_loop(update_time);
+  let callback_function = move |timestamp: f64| {
+    let stop: bool = loop_updater.update_loop(timestamp);
 
     if stop {
       return;
     }
 
-    let _result: Result<i32, anyhow::Error> =
-      request_animation_frame(f.borrow().as_ref().unwrap());
-  })));
+    let f_borrow: Ref<'_, Option<CallbackClosure>> = f.borrow();
 
-  let g_borrowed: Ref<'_, Option<Closure<dyn FnMut(f64)>>> = g.borrow();
+    let callback_closure_ref_option: Option<&CallbackClosure> =
+      f_borrow.as_ref();
 
-  let callback: &Closure<dyn FnMut(f64)> =
-    g_borrowed.as_ref().ok_or_else(|| anyhow!("loop failed"))?;
+    let callback_closure_ref: &CallbackClosure =
+      callback_closure_ref_option.unwrap();
 
-  request_animation_frame(callback)?;
+    let _result: Result<i32> = request_animation_frame(callback_closure_ref);
+  };
+
+  let callback_function_box = Box::new(callback_function);
+
+  let loop_closure: CallbackClosure = Closure::wrap(callback_function_box);
+
+  *g.borrow_mut() = Some(loop_closure);
+
+  let g_borrow: Ref<'_, Option<CallbackClosure>> = g.borrow();
+
+  let loop_closure_ref_option: Option<&CallbackClosure> = g_borrow.as_ref();
+
+  let callback: &CallbackClosure =
+    loop_closure_ref_option.ok_or_else(|| anyhow!("loop failed"))?;
+
+  let _request_id: i32 = request_animation_frame(callback)?;
 
   Ok(())
 }
